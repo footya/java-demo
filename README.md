@@ -11,6 +11,10 @@
   
 - `GET /weather?city=城市名`：查询城市天气（高德接口），返回天气、温度与穿衣建议
   - 访问地址：`http://localhost:8080/weather?city=北京`
+- 统一错误响应（JSON）：发生 4xx/5xx 时返回包含 `code/message/traceId/path/timestamp` 的结构；参数校验失败时额外返回 `errors`
+- traceId（请求链路标识）：
+  - 支持请求头 `X-Request-Id` 透传；未传入时服务端生成
+  - 响应头会回传 `X-Request-Id`，错误响应体的 `traceId` 与其一致
 
 ## 目录结构
 
@@ -46,7 +50,7 @@
 
 - 本地启动（推荐）：
   - `mvn -q -DskipTests package`
-  - `AMAP_KEY=90c9304458c94344bb096a8814ccf587 mvn -q spring-boot:run`
+  - `AMAP_KEY=你的高德Key mvn -q spring-boot:run`
 - 端口被占用时（示例改为 18080）：
   - `AMAP_KEY=你的高德Key mvn -q spring-boot:run -Dspring-boot.run.arguments="--server.port=18080"`
 - 打包并运行（jar）：
