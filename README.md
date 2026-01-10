@@ -7,7 +7,8 @@
 - `GET /ping-json`：返回 `{ "message": "pong" }`
   - 访问地址：`http://localhost:8080/ping-json`
 - `POST /echo`：JSON 请求/响应示例；成功返回 `200`，`message` 缺失/为空/空白返回 `400`，非 JSON 请求返回 `415`
-  - 访问地址：`http://localhost:8080/echo`（`Content-Type: application/json`）
+  - 访问命令：`curl -X POST http://localhost:8080/echo -H "Content-Type: application/json" -d '{"message":"hello"}'`
+  
 - `GET /weather?city=城市名`：查询城市天气（高德接口），返回天气、温度与穿衣建议
   - 访问地址：`http://localhost:8080/weather?city=北京`
 
@@ -19,6 +20,10 @@
   - `EchoController.java`：回显示例接口（请求体/响应体/状态码）
   - `PingController.java`：连通性接口
   - `WeatherController.java`：天气接口
+  - `service/`
+    - `EchoService.java`：Echo 业务逻辑（回显与长度计算）
+    - `PingService.java`：Ping 业务逻辑（返回 pong / pong-json）
+    - `WeatherService.java`：天气查询业务编排（城市->adcode->天气->穿衣建议）
   - `weather/`
     - `AmapClient.java`：高德接口客户端
     - `AmapGeocodeResponse.java`：地理编码响应模型
