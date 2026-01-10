@@ -1,12 +1,12 @@
 package com.luckin.javademo;
 
 import com.luckin.javademo.service.EchoService;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Echo 示例接口：
@@ -44,16 +44,9 @@ public class EchoController {
      * - message 缺失 / 为 null / 为空字符串 / 仅空白 => 400
      * - 合法 message => 200 + 回显 message 与 length
      */
-    public EchoResponse echo(@RequestBody EchoRequest request) {
-        // request 可能为 null（例如请求体为空，或反序列化失败的情况下），这里用最保守的判空。
-        // message 为空白（isBlank 会把 "   " 这种全空格也视为无效）也按 400 处理。
-        if (request == null || request.message() == null || request.message().isBlank()) {
-            // ResponseStatusException 会被 Spring 转换成对应 HTTP 状态码的错误响应。
-            // 这里明确返回 400（Bad Request），表示客户端请求参数不合法。
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "message required");
-        }
-        // 这里拿到的 message 一定是非 null 且非空白。
-        // 业务计算（回显与长度）下沉到 Service，Controller 只做协议层 DTO 转换与响应封装。
+    public EchoResponse echo(@Valid @RequestBody EchoRequest request) {
+        // 入参校验交给 Bean Validation：
+        // - message 为空/空白 -> 400（由全局异常处理转换成统一错误响应）
         EchoService.EchoResult result = echoService.echo(request.message());
         // 返回值会自动成为响应体 JSON，字段名来自 record 的组件名（message/length）。
         return new EchoResponse(result.message(), result.length());
@@ -64,7 +57,7 @@ public class EchoController {
      * - 期望客户端以 JSON 形式传入：{"message":"hi"}
      * - record 是 Java 16+ 的语法糖：自动生成构造器、getter（这里是 message()）、equals/hashCode/toString
      */
-    public record EchoRequest(String message) {}
+    public record EchoRequest(@NotBlank(message = "message required") String message) {}
 
     /**
      * 响应体 DTO：

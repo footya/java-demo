@@ -40,13 +40,17 @@
 ## 配置项
 
 - `server.port`：服务端口（默认 `8080`）
-- `amap.key`：高德 Web 服务 Key（天气接口需要）
+- `AMAP_KEY`：高德 Web 服务 Key（天气接口需要；通过环境变量注入，应用内对应 `amap.key=${AMAP_KEY:}`）
 
 ## 运行命令
 
-- 本地启动：
-  - `mvn spring-boot:run`
-- 打包并运行：
-  - `mvn clean package`
-  - `java -jar target/java-demo-0.0.1-SNAPSHOT.jar`
+- 本地启动（推荐）：
+  - `mvn -q -DskipTests package`
+  - `AMAP_KEY=90c9304458c94344bb096a8814ccf587 mvn -q spring-boot:run`
+- 端口被占用时（示例改为 18080）：
+  - `AMAP_KEY=你的高德Key mvn -q spring-boot:run -Dspring-boot.run.arguments="--server.port=18080"`
+- 打包并运行（jar）：
+  - `mvn -q -DskipTests package`
+  - `AMAP_KEY=你的高德Key java -jar target/java-demo-0.0.1-SNAPSHOT.jar`
+  - `AMAP_KEY=你的高德Key java -jar target/java-demo-0.0.1-SNAPSHOT.jar --server.port=18080`
 
