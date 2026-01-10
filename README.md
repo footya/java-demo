@@ -1,0 +1,41 @@
+# java-demo
+
+## 核心功能
+
+- `GET /ping`：返回 `pong`
+- `GET /ping-json`：返回 `{ "message": "pong" }`
+- `GET /weather?city=城市名`：查询城市天气（高德接口），返回天气、温度与穿衣建议
+
+## 目录结构
+
+- `pom.xml`：Maven 工程配置（Spring Boot 3.2.1，Java 17）
+- `src/main/java/com/luckin/javademo/`
+  - `Application.java`：应用入口
+  - `PingController.java`：连通性接口
+  - `WeatherController.java`：天气接口
+  - `weather/`
+    - `AmapClient.java`：高德接口客户端
+    - `AmapGeocodeResponse.java`：地理编码响应模型
+    - `AmapLiveWeatherResponse.java`：实况天气响应模型
+    - `ClothingAdvisor.java`：穿衣建议逻辑
+- `src/main/resources/application.properties`：应用配置
+
+## 环境依赖
+
+- JDK 17
+- Maven（建议 3.8+）
+- 需要可访问高德开放平台接口的网络环境
+
+## 配置项
+
+- `server.port`：服务端口（默认 `8080`）
+- `amap.key`：高德 Web 服务 Key（天气接口需要）
+
+## 运行命令
+
+- 本地启动：
+  - `mvn spring-boot:run`
+- 打包并运行：
+  - `mvn clean package`
+  - `java -jar target/java-demo-0.0.1-SNAPSHOT.jar`
+
