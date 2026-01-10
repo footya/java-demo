@@ -4,6 +4,7 @@
 
 - `GET /ping`：返回 `pong`
 - `GET /ping-json`：返回 `{ "message": "pong" }`
+- `POST /echo`：JSON 请求/响应示例；成功返回 `200`，`message` 缺失/为空/空白返回 `400`，非 JSON 请求返回 `415`
 - `GET /weather?city=城市名`：查询城市天气（高德接口），返回天气、温度与穿衣建议
 
 ## 目录结构
@@ -11,6 +12,7 @@
 - `pom.xml`：Maven 工程配置（Spring Boot 3.2.1，Java 17）
 - `src/main/java/com/luckin/javademo/`
   - `Application.java`：应用入口
+  - `EchoController.java`：回显示例接口（请求体/响应体/状态码）
   - `PingController.java`：连通性接口
   - `WeatherController.java`：天气接口
   - `weather/`
