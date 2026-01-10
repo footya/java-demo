@@ -1,5 +1,6 @@
 package com.luckin.javademo;
 
+import com.luckin.javademo.service.EchoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,16 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @RestController
 public class EchoController {
+    /**
+     * 依赖注入（构造器注入）：
+     * - Controller 只处理协议层，把业务逻辑交给 Service
+     */
+    private final EchoService echoService;
+
+    public EchoController(EchoService echoService) {
+        this.echoService = echoService;
+    }
+
     /**
      * 路由定义：
      * - value: 接口路径
@@ -42,9 +53,10 @@ public class EchoController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "message required");
         }
         // 这里拿到的 message 一定是非 null 且非空白。
-        String message = request.message();
+        // 业务计算（回显与长度）下沉到 Service，Controller 只做协议层 DTO 转换与响应封装。
+        EchoService.EchoResult result = echoService.echo(request.message());
         // 返回值会自动成为响应体 JSON，字段名来自 record 的组件名（message/length）。
-        return new EchoResponse(message, message.length());
+        return new EchoResponse(result.message(), result.length());
     }
 
     /**

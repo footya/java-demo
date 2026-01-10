@@ -3,9 +3,13 @@
 ## 核心功能
 
 - `GET /ping`：返回 `pong`
+  - 访问地址：`http://localhost:8080/ping`
 - `GET /ping-json`：返回 `{ "message": "pong" }`
+  - 访问地址：`http://localhost:8080/ping-json`
 - `POST /echo`：JSON 请求/响应示例；成功返回 `200`，`message` 缺失/为空/空白返回 `400`，非 JSON 请求返回 `415`
+  - 访问地址：`http://localhost:8080/echo`（`Content-Type: application/json`）
 - `GET /weather?city=城市名`：查询城市天气（高德接口），返回天气、温度与穿衣建议
+  - 访问地址：`http://localhost:8080/weather?city=北京`
 
 ## 目录结构
 
