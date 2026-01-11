@@ -1,5 +1,7 @@
 package com.luckin.javademo.service;
 
+import com.luckin.javademo.persistence.EchoMessageEntity;
+import com.luckin.javademo.persistence.EchoMessageRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,6 +11,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EchoService {
+    private final EchoMessageRepository echoMessageRepository;
+
+    public EchoService(EchoMessageRepository echoMessageRepository) {
+        this.echoMessageRepository = echoMessageRepository;
+    }
+
     /**
      * 业务含义：对输入消息进行回显，并给出长度。
      *
@@ -17,7 +25,13 @@ public class EchoService {
      * - 这里默认调用方已完成校验，仅做纯业务计算，避免把协议规则散落在多层。
      */
     public EchoResult echo(String message) {
-        return new EchoResult(message, message.length());
+        EchoResult result = new EchoResult(message, message.length());
+
+        // 最小持久化闭环：将一次 echo 请求落库到 echo_message 表
+        // - 不改变现有接口响应，只为 Day7/Day8 演示连库与实体映射
+        echoMessageRepository.save(new EchoMessageEntity(result.message(), result.length()));
+
+        return result;
     }
 
     /**
