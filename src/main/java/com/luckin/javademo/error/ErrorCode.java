@@ -15,6 +15,10 @@ public enum ErrorCode {
      */
     VALIDATION_FAILED,
     /**
+     * 资源不存在：典型用于 CRUD 按 id 查询/更新/删除时找不到目标资源。
+     */
+    NOT_FOUND,
+    /**
      * 媒体类型不支持：如接口只接受 JSON，但客户端传了非 JSON。
      */
     UNSUPPORTED_MEDIA_TYPE,

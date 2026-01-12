@@ -8,6 +8,12 @@
   - 访问地址：`http://localhost:8080/ping-json`
 - `POST /echo`：JSON 请求/响应示例；成功返回 `200`，`message` 缺失/为空/空白返回 `400`，非 JSON 请求返回 `415`
   - 访问命令：`curl -X POST http://localhost:8080/echo -H "Content-Type: application/json" -d '{"message":"hello"}'`
+- EchoMessage CRUD（Day9）：
+  - 说明：成功响应统一返回结构 `{"code":"OK","message":"OK","traceId":"...","data":...}`；资源不存在返回 `404` 且错误码 `code=NOT_FOUND`
+  - 新增（Create）：`curl -X POST http://localhost:8080/echo-messages -H "Content-Type: application/json" -d '{"message":"hi"}'`
+  - 查询（Read）：`curl -X GET http://localhost:8080/echo-messages/1`
+  - 更新（Update）：`curl -X PUT http://localhost:8080/echo-messages/1 -H "Content-Type: application/json" -d '{"message":"hello"}'`
+  - 删除（Delete）：`curl -X DELETE http://localhost:8080/echo-messages/1`
 - 本地数据库（H2，默认）：
   - 调用 `POST /echo` 时会写入 `echo_message` 表（字段：`id/message/length/created_at`），用于演示 Day7/Day8 的连库与实体映射
   

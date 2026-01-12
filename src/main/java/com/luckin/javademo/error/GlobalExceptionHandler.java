@@ -139,7 +139,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ApiErrorResponse> handleNoResourceFound(NoResourceFoundException ex,
                                                                   HttpServletRequest request) {
-        return build(HttpStatus.NOT_FOUND, ErrorCode.INVALID_REQUEST, "资源不存在", request, null);
+        return build(HttpStatus.NOT_FOUND, ErrorCode.NOT_FOUND, "资源不存在", request, null);
+    }
+
+    /**
+     * 业务资源不存在（CRUD 典型场景：按 id 查询/更新/删除找不到记录）。
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleResourceNotFound(ResourceNotFoundException ex,
+                                                                   HttpServletRequest request) {
+        return build(HttpStatus.NOT_FOUND, ErrorCode.NOT_FOUND, "资源不存在", request, null);
     }
 
     /**

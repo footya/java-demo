@@ -52,5 +52,15 @@ public class EchoMessageEntity {
     public Instant getCreatedAt() {
         return createdAt;
     }
+
+    /**
+     * 更新业务字段：
+     * - createdAt 由数据库维护，不允许业务侧修改
+     * - 仅用于 CRUD 的“更新”场景，避免对外暴露通用 setter 导致误用
+     */
+    public void updateMessageAndLength(String message, Integer length) {
+        this.message = message;
+        this.length = length;
+    }
 }
 
