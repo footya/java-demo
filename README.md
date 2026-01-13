@@ -14,6 +14,13 @@
   - 查询（Read）：`curl -X GET http://localhost:8080/echo-messages/1`
   - 更新（Update）：`curl -X PUT http://localhost:8080/echo-messages/1 -H "Content-Type: application/json" -d '{"message":"hello"}'`
   - 删除（Delete）：`curl -X DELETE http://localhost:8080/echo-messages/1`
+- EchoMessage 列表查询（Day10，分页/排序/条件过滤）：
+  - 默认查询：`curl -X GET "http://localhost:8080/echo-messages"`
+  - 分页查询：`curl -X GET "http://localhost:8080/echo-messages?page=2&size=10"`
+  - 排序查询：`curl -X GET "http://localhost:8080/echo-messages?sort=createdAt&order=desc"`
+  - 关键字过滤：`curl -X GET "http://localhost:8080/echo-messages?message=hi"`
+  - 时间范围过滤：`curl -X GET "http://localhost:8080/echo-messages?createdAtFrom=2026-01-01T00:00:00Z&createdAtTo=2026-02-01T00:00:00Z"`
+  - 非法参数示例（应返回 400）：`curl -X GET "http://localhost:8080/echo-messages?page=0"` 或 `curl -X GET "http://localhost:8080/echo-messages?size=0"`
 - 本地数据库（H2，默认）：
   - 调用 `POST /echo` 时会写入 `echo_message` 表（字段：`id/message/length/created_at`），用于演示 Day7/Day8 的连库与实体映射
   
