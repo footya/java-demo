@@ -72,6 +72,7 @@
   - `mvn -q -DskipTests package`
   - `AMAP_KEY=你的高德Key java -jar target/java-demo-0.0.1-SNAPSHOT.jar`
   - `AMAP_KEY=你的高德Key java -jar target/java-demo-0.0.1-SNAPSHOT.jar --server.port=18080`
+  - `90c9304458c94344bb096a8814ccf587`
 
 ## 本地验证：echo_message 落库（H2 / MySQL）
 
